@@ -1,9 +1,5 @@
-# ARTS
-algorithm, review, tips, share
+# Algorithm
 
-第一次做LeetCode题目，自己其实是电子通信工程专业硕士，过去的迷茫导致自己没有一个清晰的职业规划路线，现在纯搞通信已经不好就业了，想多学些计算机知识来适应
-应将来的世界，所以，我一定要坚持下来，虽然自己还没入门，但是耗子叔花了20年，我也要养成终身学习的习惯，加油！
-## 1.algorithm
 Remove Duplicates from Sorted Array 
 
 Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length.
@@ -48,6 +44,9 @@ class Solution:
         return len(nums)
 ```
 特别简单的一题。自己还想了很久。。。
+
+
+
 
 ## 2.review
 [机器学习无监督学习算法——聚类](https://en.wikipedia.org/wiki/Cluster_analysis)
