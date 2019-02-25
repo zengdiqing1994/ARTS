@@ -2,76 +2,8 @@
 algorithm, review, tips, share
 
 ## Algorithm 
-买卖股票的最佳时机 II
-给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
 
-设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。
 
-注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
-
-示例 1:
-
-输入: [7,1,5,3,6,4]
-输出: 7
-解释: 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
-     随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。
-示例 2:
-
-输入: [1,2,3,4,5]
-输出: 4
-解释: 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
-     注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。
-     因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。
-示例 3:
-
-输入: [7,6,4,3,1]
-输出: 0
-解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
-
-思路：这道题比较简单，就是需要如果后面的股价大于前面的就应该买入卖出，反之就不进行操作。
-```
-class Solution:
-    def maxProfit(self, prices):
-        """
-        :type prices: List[int]
-        :rtype: int
-        """
-        benefit = 0
-        if len(prices) == 0:
-            return 0
-        i = 0
-        j = 1
-        while (j < len(prices)):
-            if (prices[j] > prices[i]):
-                benefit += prices[j] - prices[i]
-            j += 1
-            i += 1
-        return benefit
-```
-第二题：旋转数组
-给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。
-
-示例 1:
-
-输入: [1,2,3,4,5,6,7] 和 k = 3
-输出: [5,6,7,1,2,3,4]
-解释:
-向右旋转 1 步: [7,1,2,3,4,5,6]
-向右旋转 2 步: [6,7,1,2,3,4,5]
-向右旋转 3 步: [5,6,7,1,2,3,4]
-
-思路：直接用切片，简洁，快速。
-```
-class Solution:
-    def rotate(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: void Do not return anything, modify nums in-place instead.
-        """
-        k = k%len(nums)
-        nums[:] = nums[-k:]+nums[:-k]  
-```
 
 ## Review
 [How to read an academic article](https://organizationsandmarkets.com/2010/08/31/how-to-read-an-academic-article/)
