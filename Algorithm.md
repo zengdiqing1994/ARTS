@@ -79,6 +79,56 @@ class Solution:
         return res
 ```
 
+145.二叉树的后序遍历
+
+给定一个二叉树，返回它的 后序 遍历。
+
+示例:
+
+输入: [1,null,2,3]  
+   1
+    \
+     2
+    /
+   3 
+
+输出: [3,2,1]
+进阶: 递归算法很简单，你可以通过迭代算法完成吗？
+
+
+我们实际上可以模拟栈的操作。对于这个问题，实际上在计算机中是这样处理的。我们首先将打印node1.val、访问node1的right和访问node1的left压入栈中。
+
+stack : cout1   go-1-R   go-1-L
+
+然后弹出访问node1的left，我们发现它是空，所以什么都不操作。接着我们访问node1的right，
+
+stack : cout1   cout2   go-2-R   go-2-L   
+
+然后弹出go-2-L，我们接着将打印node3.val、访问node3的right和访问node3的left压入栈中。
+
+stack : cout1   cout2   go-2-R   cout3   go-3-R   go-3-L 
+
+接着就是弹出这些指令就可以了。
+
+
+```py
+class Solution:
+    def postorderTraversal(self, root: 'TreeNode') -> 'List[int]':
+        result = []
+        if not root:
+            return []
+        stack = []
+        stack.append(root)
+        while len(stack)!=0:
+            top = stack.pop()
+            if top.left != None:
+                stack.append(top.left)
+            if top.right !=None:
+                stack.append(top.right)
+            result.insert(0,top.val)
+        return result
+```
+
 
 
 Remove Duplicates from Sorted Array 
