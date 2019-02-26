@@ -44,7 +44,40 @@ Class MergeSort:
 ```
 
 
+94.给定一个二叉树，返回它的中序 遍历。
 
+示例:
+
+输入: [1,null,2,3]
+1
+
+2
+/
+3
+
+输出: [1,3,2]
+进阶: 递归算法很简单，你可以通过迭代算法完成吗？
+
+思路：就用非递归来写，先一股脑把左边一条线全部push到底（即走到最左边），然后node最终为None了就开始pop stack了，然后因为pop出来的每一个node都是自
+己这棵树的root，所以看看它有没有右孩子，没有那肯定继续pop，有的话自然而然右孩子是下一个要被访问的节点。
+
+```py
+class Solution:
+    def inorderTraversal(self, root: 'TreeNode') -> 'List[int]':
+        if not root:
+            return []
+        stack = []
+        node = root 
+        res = []
+        while node or stack:
+            while node:             #把节点放入栈中
+                stack.append(node)  
+                node = node.left    #一直往左边找
+            node = stack.pop()      #pop掉左边
+            res.append(node.val)    #作为结果
+            node = node.right          #再遍历右边子树
+        return res
+```
 
 
 
