@@ -1,5 +1,53 @@
 # Algorithm
 
+#### 1.快速排序
+
+```py
+Class QuickSort:
+    def quickSort(self,A,n):
+        if n <= 1:
+            return A
+        left = []
+        right = []
+        pivot = A.pop()
+        for i in A:
+            if i < pivot:
+                A.append(left[i])
+            else:
+                A.append(right[i])
+        result = self.quickSort(left[i]) + [pivot] + self.quickSort(right[i])
+        return result
+```
+
+#### 2.归并排序
+
+```py
+Class MergeSort:
+    def mergeSort(self,A,n):
+        if n <= 1:
+            return A
+        mid = len(A)//2
+        left = mergeSort(A[:mid],mid)
+        right = mergeSort(A[mid:],mid)
+        i,j = 0,0
+        result = []
+        while i<len(left) and j<len(right):
+            if left[i] <= right[j]:
+                result.append(left[i])
+                i+=1
+            else:
+                result.append(right[j])
+                j+=1
+        result += left[i:]
+        result += right[j:]
+        return result
+```
+
+
+
+
+
+
 Remove Duplicates from Sorted Array 
 
 Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length.
