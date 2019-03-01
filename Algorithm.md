@@ -43,6 +43,33 @@ Class MergeSort:
         return result
 ```
 
+#### 3.冒泡排序
+
+```py
+class BubbleSort:
+    def bubbleSort(self,A,n):
+        for i in range(len(A)):
+            for j in range(len(A)-i):
+                if A[j]>A[j+1]:
+                    A[j],A[j+1] = A[j+1],A[j]
+        return A
+```
+
+#### 4.选择排序
+
+```py
+class SelectionSort:
+    def selectionSort(self,A,n):
+        for i in range(len(A)):
+            minIndex = i
+            for j in range(i+1,len(A)):
+                if A[j]<A[minIndex]:
+                   minIndex = j
+            if i != minIndex:
+                A[i],A[minIndex] = A[minIndex],A[i]
+```
+
+#### 5.插入排序
 
 94.给定一个二叉树，返回它的中序 遍历。
 
