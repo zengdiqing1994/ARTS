@@ -71,6 +71,70 @@ class SelectionSort:
 
 #### 5.插入排序
 
+```py
+Class InsertSort:
+    def insertSort(self,A,n):
+        for i in range(n):
+            for j in range(i,0,-1):
+                if A[j]<A[j-1]:
+                    A[j],A[j-1]=A[j-1],A[j]
+                else:
+                    break
+        return A
+```
+
+#### 6.希尔排序
+
+```py
+class ShellSort:
+    def shellSort(self, A, n):
+        gap = n//2
+        while gap >= 1:
+            for i in range(gap,n):
+                while (i-gap)>=0:
+                    if A[i] < A[i-gap]:
+                        A[i],A[i-gap] = A[i-gap],A[i]
+                        i -= gap
+                    else:
+                        break
+            gap //= 2
+        return A
+```
+
+#### 7.堆排序
+
+```py
+class HeapSort:
+    def heapSort(self, A, n):
+        # write code here
+        for i in range(n/2+1, -1, -1):
+            self.MaxHeapFixDown(A, i, n);
+        for i in range(n-1, -1, -1):
+            A[0], A[i] = A[i], A[0]
+            self.MaxHeapFixDown(A, 0, i)
+        return A
+      
+    def MaxHeapFixDown(self, A, i, n):
+        tmp = A[i]
+        j = 2*i+1
+        while(j<n):
+            if j+1<n and A[j+1] > A[j]:
+                j+=1
+            if A[j] < tmp:
+                break
+            A[i] = A[j]
+            i = j
+            j = 2*i+1
+        A[i] = tmp
+```
+
+
+
+
+
+
+
+
 94.给定一个二叉树，返回它的中序 遍历。
 
 示例:
