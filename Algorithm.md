@@ -219,6 +219,68 @@ class Solution:
             result.insert(0,top.val)
         return result
 ```
+102.给定一个二叉树，返回其按层次遍历的节点值。 （即逐层地，从左到右访问所有节点）。
+
+例如:
+给定二叉树: [3,9,20,null,null,15,7],
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+返回其层次遍历结果：
+
+[
+  [3],
+  [9,20],
+  [15,7]
+]
+
+思路：
+
+该问题需要用到队列
+
+建立一个queue
+
+先把根节点放进去，这时候找根节点的左右两个子节点
+
+去掉根节点，此时queue里的元素就是下一层的所有节点
+
+用for循环遍历，将结果存到一个一维向量里
+
+遍历完之后再把这个一维向量存到二维向量里
+
+以此类推，可以完成层序遍历
+
+
+![层次遍历](https://bucket-1257126549.cos.ap-guangzhou.myqcloud.com/20181112084159.gif)
+
+```py
+class Solution:
+    def levelOrder(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        if not root:
+            return []
+        result = []
+        queue = collections.deque()
+        queue.append(root)
+        
+        while queue:
+            level_size = len(queue)
+            current_level = []
+            
+            for _ in range(level_size):
+                node = queue.popleft()
+                current_level.append(node.val)
+                if node.left: queue.append(node.left)
+                if node.right: queue.append(node.right)
+            result.append(current_level)
+        return result
+```
 
 
 
