@@ -128,8 +128,53 @@ class HeapSort:
         A[i] = tmp
 ```
 
+215.在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
 
+示例 1:
 
+输入: [3,2,1,5,6,4] 和 k = 2
+输出: 5
+示例 2:
+
+输入: [3,2,3,1,2,4,5,5,6] 和 k = 4
+输出: 4
+说明:
+
+你可以假设 k 总是有效的，且 1 ≤ k ≤ 数组的长度。
+
+思路：
+
+用到QuickSort，排序的方向是从大到小，每次都找一个枢纽pivot，然后遍历其他所有的数字，像这道题从大到小排，把大于中枢点的数放在左边，小于中枢点的放在右边，这样中枢点就是是整个数组中第几大的数字就确定了，虽然左右两边不一定完全有序，但是不影响。如果求出pivot正好是k-1,就求到了，如果pivot大于k-1,就说明在要求的数字在左半边部分，更新右边界，反之更新左边界。
+
+```py
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        left, right = 0,len(nums)-1
+        while nums:
+            pos = self.partition(nums,left,right)
+            if pos == k-1:
+                return nums[pos]
+            elif pos > k-1:
+                right = pos-1
+            else:
+                left = pos+1      
+        
+    def partition(self,nums,left,right):    
+        pivot = nums[left]
+        l = left + 1
+        r = right
+        while(l<=r):
+            if nums[l]<pivot and nums[r]>pivot:
+                # l += 1
+                # r -= 1
+                nums[l],nums[r] = nums[r],nums[l]
+            if nums[l] >= pivot:
+                l+=1
+            if nums[r] <= pivot:
+                r-=1
+        nums[left],nums[r]=nums[r],nums[left]
+        return r                
+```
 
 
 
