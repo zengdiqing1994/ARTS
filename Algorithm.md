@@ -128,6 +128,36 @@ class HeapSort:
         A[i] = tmp
 ```
 
+347.前K个高频元素
+
+给定一个非空的整数数组，返回其中出现频率前 k 高的元素。
+
+示例 1:
+
+输入: nums = [1,1,1,2,2,3], k = 2
+输出: [1,2]
+示例 2:
+
+输入: nums = [1], k = 1
+输出: [1]
+
+思路：可用优先队列，以及桶排序
+
+```py
+def topFrequency(self,nums,k):
+    count_list = {}
+    result = []
+    if i in nums:
+        count_list[i] = count_list.get[i,0] + 1
+        t = sorted(count_list.items(),key = lambda l:l[1],reverse = True)
+        for i in range(k):
+            result.append(t[i][0])
+        return result
+```
+
+
+
+
 215.在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
 
 示例 1:
@@ -326,6 +356,8 @@ class Solution:
             result.append(current_level)
         return result
 ```
+
+
 
 
 
