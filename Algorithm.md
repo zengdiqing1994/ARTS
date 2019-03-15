@@ -127,6 +127,86 @@ class HeapSort:
             j = 2*i+1
         A[i] = tmp
 ```
+104.给定一个二叉树，找出其最大深度。
+
+二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。
+
+说明: 叶子节点是指没有子节点的节点。
+
+示例：
+给定二叉树 [3,9,20,null,null,15,7]，
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+返回它的最大深度 3 。
+
+```py
+def maxDepth(self,root):
+    if not root:
+        return 0
+    return 1 + max(self.maxDepth(root.left),self.maxDepth(root.right))
+```
+111.给定一个二叉树，找出其最小深度。
+
+最小深度是从根节点到最近叶子节点的最短路径上的节点数量。
+
+说明: 叶子节点是指没有子节点的节点。
+
+示例:
+
+给定二叉树 [3,9,20,null,null,15,7],
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+返回它的最小深度  2.
+
+```py
+def minDepth(self,root):
+    if root is None:
+        return 0
+    if root.left == None:
+        return self.minDepth(root.right)+1
+    if root.right == None:
+        return self.minDepth(root.left)+1
+    return min(self.minDepth(root.right),self.minDepth(root.left))+1
+```
+
+226.翻转一棵二叉树。
+
+示例：
+
+输入：
+
+     4
+   /   \
+  2     7
+ / \   / \
+1   3 6   9
+输出：
+
+     4
+   /   \
+  7     2
+ / \   / \
+9   6 3   1
+```py
+class Solution:
+    def invertTree(self, root: TreeNode) -> TreeNode:
+        if root is None:
+            return None
+        self.invertTree(root.left)
+        self.invertTree(root.right)
+        root.left,root.right = root.right,root.left
+        return root
+```
+
+
 
 347.前K个高频元素
 
