@@ -149,6 +149,9 @@ def twoSum(nums,target):
             dic[tmp] = i
 ```
 
+
+
+
 242.有效的异位字符串
 ```py
 class Solution:
