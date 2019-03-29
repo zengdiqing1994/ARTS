@@ -149,6 +149,106 @@ def twoSum(nums,target):
             dic[tmp] = i
 ```
 
+110.给定一个二叉树，判断它是否是高度平衡的二叉树。
+
+本题中，一棵高度平衡二叉树定义为：
+
+一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过1。
+
+示例 1:
+
+给定二叉树 [3,9,20,null,null,15,7]
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+返回 true 。
+
+示例 2:
+
+给定二叉树 [1,2,2,3,3,null,null,4,4]
+
+       1
+      / \
+     2   2
+    / \
+   3   3
+  / \
+ 4   4
+返回 false 。
+
+思路：递归,判断左右子树最大高度差不超过1且左右子树均为平衡树
+
+```py
+class Solution(object):
+    def isBalanced(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        def getDepth(root):
+            if not root:
+                return 0
+            return 1 + max(getDepth(root.left), getDepth(root.right)) #左右子树最大的深度，记住加一
+    
+        if not root:
+            return True
+        if abs(getDepth(root.left) - getDepth(root.right))>1:   #判断左右子树的最大深度差是否超过1
+            return False
+        return self.isBalanced(root.left) and self.isBalanced(root.right)
+```
+
+
+513.给定一个二叉树，在树的最后一行找到最左边的值。
+
+示例 1:
+
+输入:
+
+    2
+   / \
+  1   3
+
+输出:
+1
+ 
+
+示例 2:
+
+输入:
+
+        1
+       / \
+      2   3
+     /   / \
+    4   5   6
+       /
+      7
+
+输出:
+7
+ 
+
+注意: 您可以假设树（即给定的根节点）不为 NULL。
+
+```py
+class Solution:
+    def findBottomLeftValue(self, root: TreeNode) -> int:
+        result, queue = [], [root]
+        while queue:
+            temp = []
+            result = queue[0].val       #取出每一层根的val
+            for node in queue:      
+                if node.left:               
+                    temp.append(node.left)  #层次遍历
+                if node.right:
+                    temp.append(node.right)
+            queue = temp
+        return result
+```
+
 
 
 
