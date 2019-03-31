@@ -252,6 +252,51 @@ class Solution:
 
 
 
+
+230.给定一个二叉搜索树，编写一个函数 kthSmallest 来查找其中第 k 个最小的元素。
+
+说明：
+你可以假设 k 总是有效的，1 ≤ k ≤ 二叉搜索树元素个数。
+
+示例 1:
+
+输入: root = [3,1,4,null,2], k = 1
+   3
+  / \
+ 1   4
+  \
+   2
+输出: 1
+示例 2:
+
+输入: root = [5,3,6,2,4,null,null,1], k = 3
+       5
+      / \
+     3   6
+    / \
+   2   4
+  /
+ 1
+输出: 3
+
+思路：有没有办法，在遍历的过程中就知道list的排序呢？啊！！！中序遍历。我们知道中序遍历的结果是一个有序的list，所以我们可以在中序遍历中设置提前停止。
+
+```py
+class Solution:
+    def _inOrder(self,root,arr,k):
+        if root:
+            self._inOrder(root.left,arr,k)
+            if len(arr) >= k:
+                return 
+            arr.append(root.val)
+            self._inOrder(root.right,arr,k)
+
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        res = []
+        self._inOrder(root,res,k)
+        return res[k-1]
+```
+
 242.有效的异位字符串
 ```py
 class Solution:
