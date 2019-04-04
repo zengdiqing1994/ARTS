@@ -3,6 +3,8 @@
 
 [数组字符串](#数组字符串)
 
+[二叉树](#二叉树)
+
 
 
 ### 七大排序算法
@@ -134,6 +136,88 @@ class HeapSort:
             j = 2*i+1
         A[i] = tmp
 ```
+
+
+347.前K个高频元素
+
+给定一个非空的整数数组，返回其中出现频率前 k 高的元素。
+
+示例 1:
+
+输入: nums = [1,1,1,2,2,3], k = 2
+输出: [1,2]
+示例 2:
+
+输入: nums = [1], k = 1
+输出: [1]
+
+思路：可用优先队列，以及桶排序
+
+```py
+def topFrequency(self,nums,k):
+    count_list = {}
+    result = []
+    if i in nums:
+        count_list[i] = count_list.get[i,0] + 1
+        t = sorted(count_list.items(),key = lambda l:l[1],reverse = True)
+        for i in range(k):
+            result.append(t[i][0])
+        return result
+```
+
+
+
+
+215.在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
+
+示例 1:
+
+输入: [3,2,1,5,6,4] 和 k = 2
+输出: 5
+示例 2:
+
+输入: [3,2,3,1,2,4,5,5,6] 和 k = 4
+输出: 4
+说明:
+
+你可以假设 k 总是有效的，且 1 ≤ k ≤ 数组的长度。
+
+思路：
+
+用到QuickSort，排序的方向是从大到小，每次都找一个枢纽pivot，然后遍历其他所有的数字，像这道题从大到小排，把大于中枢点的数放在左边，小于中枢点的放在右边，这样中枢点就是是整个数组中第几大的数字就确定了，虽然左右两边不一定完全有序，但是不影响。如果求出pivot正好是k-1,就求到了，如果pivot大于k-1,就说明在要求的数字在左半边部分，更新右边界，反之更新左边界。
+
+```py
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        left, right = 0,len(nums)-1
+        while nums:
+            pos = self.partition(nums,left,right)
+            if pos == k-1:
+                return nums[pos]
+            elif pos > k-1:
+                right = pos-1
+            else:
+                left = pos+1      
+        
+    def partition(self,nums,left,right):    
+        pivot = nums[left]
+        l = left + 1
+        r = right
+        while(l<=r):
+            if nums[l]<pivot and nums[r]>pivot:
+                # l += 1
+                # r -= 1
+                nums[l],nums[r] = nums[r],nums[l]
+            if nums[l] >= pivot:
+                l+=1
+            if nums[r] <= pivot:
+                r-=1
+        nums[left],nums[r]=nums[r],nums[left]
+        return r                
+```
+
+
+
 1.给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
 
 你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
@@ -322,8 +406,113 @@ def rotate(matrix):
     return matrix
 ```
 
+409.给定一个包含大写字母和小写字母的字符串，找到通过这些字母构造成的最长的回文串。
+
+在构造过程中，请注意区分大小写。比如 "Aa" 不能当做一个回文字符串。
+
+注意:
+假设字符串的长度不会超过 1010。
+
+示例 1:
+
+输入:
+"abccccdd"
+
+输出:
+7
+
+解释:
+我们可以构造的最长的回文串是"dccaccd", 它的长度是 7。
+
+思路：这道回文字符串包括以前的回文字符串的题目都比较重要，由于这里的字符串可以打乱，所以问题就转化成了求偶数个字符的个数，我们了解的回文字符串都知道，
+回文串主要有两种形式，一个是左右完全对称的，比如noon，还有一种是以中心字符为中心，左右对称，比如bob，那么统计出来所有偶数个字符的出现总和，然后如果有
+奇数个字符的化，我们取出其最大偶数，然后最后结果加上1就可以啦。
+
+```py
+class Solution:
+    def longestPalindrome(self, s: str) -> int:
+        dict1 = {} #用来存储出现过的字符和出现的次数
+        j = 0   #存储回文长度
+        z = 0   #统计单数次字符的个数
+        for i in range(len(s)):
+            if s[i] in dict1:
+                dict1[s[i]] += 1 #出现的字符作为键，次数作为value值
+            else:
+                dict1[s[i]] = 1
+        for v in dict1: #对构建好的字典进行遍历
+            if (dict1[v] + 1) % 2==0:  #出现单数次字符次数减一
+                j+=(dict1[v]-1)
+                z+=1
+            if dict1[v] % 2 == 0: #出现偶数次字符，一定可以构造
+                j+=dict1[v]
+        if z > 0: 
+            return j+1
+        else:
+            return j
+```
+这个时间复杂度较高:O(n^2)
+空间复杂度O(n)
 
 
+
+2.实现strStr()
+实现 strStr() 函数。
+
+给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。
+
+示例 1:
+
+输入: haystack = "hello", needle = "ll"
+输出: 2
+示例 2:
+
+输入: haystack = "aaaaa", needle = "bba"
+输出: -1
+说明:
+
+当 needle 是空字符串时，我们应当返回什么值呢？这是一个在面试中很好的问题。
+
+对于本题而言，当 needle 是空字符串时我们应当返回 0 。这与C语言的 strstr() 以及 Java的 indexOf() 定义相符。
+
+思路：haystack中的字符串和needle的要重合
+```
+class Solution:
+    def strStr(self, haystack, needle):
+        """
+        :type haystack: str
+        :type needle: str
+        :rtype: int
+        """
+        len1 = len(needle)
+        if len1 == 0:
+            return 0
+        for i in range(len(haystack)):
+            if haystack[i:i+len1] == needle:
+                return i
+        return -1
+```
+
+
+242.有效的异位字符串
+```py
+class Solution:
+    def isAnagram(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+         dic1, dic2 = {}, {}
+         for item in s:
+             dic1[item] = dic1.get(item, 0) + 1
+         for item in t:
+             dic2[item] = dic2.get(item, 0) + 1
+            
+         return dic1 == dic2
+```
+
+
+### 二叉树
 
 110.给定一个二叉树，判断它是否是高度平衡的二叉树。
 
@@ -539,23 +728,7 @@ class Trie:
 
 
 
-242.有效的异位字符串
-```py
-class Solution:
-    def isAnagram(self, s, t):
-        """
-        :type s: str
-        :type t: str
-        :rtype: bool
-        """
-         dic1, dic2 = {}, {}
-         for item in s:
-             dic1[item] = dic1.get(item, 0) + 1
-         for item in t:
-             dic2[item] = dic2.get(item, 0) + 1
-            
-         return dic1 == dic2
-```
+
 
 235.给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
 
@@ -581,52 +754,7 @@ class Solution:
         return root
 ```
 
-409.给定一个包含大写字母和小写字母的字符串，找到通过这些字母构造成的最长的回文串。
 
-在构造过程中，请注意区分大小写。比如 "Aa" 不能当做一个回文字符串。
-
-注意:
-假设字符串的长度不会超过 1010。
-
-示例 1:
-
-输入:
-"abccccdd"
-
-输出:
-7
-
-解释:
-我们可以构造的最长的回文串是"dccaccd", 它的长度是 7。
-
-思路：这道回文字符串包括以前的回文字符串的题目都比较重要，由于这里的字符串可以打乱，所以问题就转化成了求偶数个字符的个数，我们了解的回文字符串都知道，
-回文串主要有两种形式，一个是左右完全对称的，比如noon，还有一种是以中心字符为中心，左右对称，比如bob，那么统计出来所有偶数个字符的出现总和，然后如果有
-奇数个字符的化，我们取出其最大偶数，然后最后结果加上1就可以啦。
-
-```py
-class Solution:
-    def longestPalindrome(self, s: str) -> int:
-        dict1 = {} #用来存储出现过的字符和出现的次数
-        j = 0   #存储回文长度
-        z = 0   #统计单数次字符的个数
-        for i in range(len(s)):
-            if s[i] in dict1:
-                dict1[s[i]] += 1 #出现的字符作为键，次数作为value值
-            else:
-                dict1[s[i]] = 1
-        for v in dict1: #对构建好的字典进行遍历
-            if (dict1[v] + 1) % 2==0:  #出现单数次字符次数减一
-                j+=(dict1[v]-1)
-                z+=1
-            if dict1[v] % 2 == 0: #出现偶数次字符，一定可以构造
-                j+=dict1[v]
-        if z > 0: 
-            return j+1
-        else:
-            return j
-```
-这个时间复杂度较高:O(n^2)
-空间复杂度O(n)
 
 
 104.给定一个二叉树，找出其最大深度。
@@ -744,83 +872,7 @@ class Solution:
 
 
 
-347.前K个高频元素
 
-给定一个非空的整数数组，返回其中出现频率前 k 高的元素。
-
-示例 1:
-
-输入: nums = [1,1,1,2,2,3], k = 2
-输出: [1,2]
-示例 2:
-
-输入: nums = [1], k = 1
-输出: [1]
-
-思路：可用优先队列，以及桶排序
-
-```py
-def topFrequency(self,nums,k):
-    count_list = {}
-    result = []
-    if i in nums:
-        count_list[i] = count_list.get[i,0] + 1
-        t = sorted(count_list.items(),key = lambda l:l[1],reverse = True)
-        for i in range(k):
-            result.append(t[i][0])
-        return result
-```
-
-
-
-
-215.在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
-
-示例 1:
-
-输入: [3,2,1,5,6,4] 和 k = 2
-输出: 5
-示例 2:
-
-输入: [3,2,3,1,2,4,5,5,6] 和 k = 4
-输出: 4
-说明:
-
-你可以假设 k 总是有效的，且 1 ≤ k ≤ 数组的长度。
-
-思路：
-
-用到QuickSort，排序的方向是从大到小，每次都找一个枢纽pivot，然后遍历其他所有的数字，像这道题从大到小排，把大于中枢点的数放在左边，小于中枢点的放在右边，这样中枢点就是是整个数组中第几大的数字就确定了，虽然左右两边不一定完全有序，但是不影响。如果求出pivot正好是k-1,就求到了，如果pivot大于k-1,就说明在要求的数字在左半边部分，更新右边界，反之更新左边界。
-
-```py
-class Solution:
-    def findKthLargest(self, nums: List[int], k: int) -> int:
-        left, right = 0,len(nums)-1
-        while nums:
-            pos = self.partition(nums,left,right)
-            if pos == k-1:
-                return nums[pos]
-            elif pos > k-1:
-                right = pos-1
-            else:
-                left = pos+1      
-        
-    def partition(self,nums,left,right):    
-        pivot = nums[left]
-        l = left + 1
-        r = right
-        while(l<=r):
-            if nums[l]<pivot and nums[r]>pivot:
-                # l += 1
-                # r -= 1
-                nums[l],nums[r] = nums[r],nums[l]
-            if nums[l] >= pivot:
-                l+=1
-            if nums[r] <= pivot:
-                r-=1
-        nums[left],nums[r]=nums[r],nums[left]
-        return r                
-```
 
 
 
@@ -974,6 +1026,11 @@ class Solution:
 ```
 
 
+
+
+
+
+
 69.实现 int sqrt(int x) 函数。
 
 计算并返回 x 的平方根，其中 x 是非负整数。
@@ -993,6 +1050,11 @@ class Solution:
 ```py
   
 ```
+
+
+
+
+
 
 Remove Duplicates from Sorted Array 
 
@@ -1435,42 +1497,7 @@ class Solution:
         return res
 ```
 
-2.实现strStr()
-实现 strStr() 函数。
 
-给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。
-
-示例 1:
-
-输入: haystack = "hello", needle = "ll"
-输出: 2
-示例 2:
-
-输入: haystack = "aaaaa", needle = "bba"
-输出: -1
-说明:
-
-当 needle 是空字符串时，我们应当返回什么值呢？这是一个在面试中很好的问题。
-
-对于本题而言，当 needle 是空字符串时我们应当返回 0 。这与C语言的 strstr() 以及 Java的 indexOf() 定义相符。
-
-思路：haystack中的字符串和needle的要重合
-```
-class Solution:
-    def strStr(self, haystack, needle):
-        """
-        :type haystack: str
-        :type needle: str
-        :rtype: int
-        """
-        len1 = len(needle)
-        if len1 == 0:
-            return 0
-        for i in range(len(haystack)):
-            if haystack[i:i+len1] == needle:
-                return i
-        return -1
-```
 
 
 
