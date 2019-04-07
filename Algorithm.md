@@ -477,6 +477,81 @@ def spiralOrder(matrix):
 
 空间复杂度：O（1）
 
+59.给定一个正整数 n，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。
+
+示例:
+
+输入: 3
+输出:
+[
+ [ 1, 2, 3 ],
+ [ 8, 9, 4 ],
+ [ 7, 6, 5 ]
+]
+
+思路：和之前的那道题类似，只不过这次要自己生成一个矩阵
+
+```py
+class Solution:
+    def generateMatrix(self, n: int) -> List[List[int]]:
+        curNum = 0
+        matrix = [[0 for i in range(n)] for j in range(n)]
+        maxUp = maxLeft = 0
+        maxDown = maxRight = n - 1
+        direction = 0
+        while True:
+            if direction == 0:
+                for i in range(maxLeft,maxRight+1):
+                    curNum += 1
+                    matrix[maxUp][i] = curNum
+                maxUp += 1
+            elif direction == 1:
+                for i in range(maxUp,maxDown+1):
+                    curNum += 1
+                    matrix[i][maxRight] = curNum
+                maxRight -= 1
+            elif direction == 2:
+                for i in reversed(range(maxLeft,maxRight+1)):
+                    curNum += 1
+                    matrix[maxDown][i] = curNum
+                maxDown -= 1
+            else:
+                for i in reversed(range(maxUp,maxDown+1)):
+                    curNum += 1
+                    matrix[i][maxLeft] = curNum
+                maxLeft += 1
+            if curNum >= n*n:
+                return matrix
+            direction = (direction + 1) % 4
+```
+
+53.给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+
+示例:
+
+输入: [-2,1,-3,4,-1,2,1,-5,4],
+输出: 6
+解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
+
+思路：用DP来求解，只关注：当前值和当前值+过去的状态，是变好还是变坏
+
+状态定义方程：maxSum = [nums[0] for i in range(n)]
+
+状态转移：maxSum[i] = max(maxSum[i-1] + nums[i],nums[i])，一个是加上nums[i]的，另一个是从a[i]起头，重新开始。
+
+```py
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        n = len(nums)
+        maxSum = [nums[0] for i in range(n)]
+        for i in range(1,n):
+            maxSum[i] = max(maxSum[i-1] + nums[i],nums[i])
+        return max(maxSum)
+```
+
+
+
+
 
 
 409.给定一个包含大写字母和小写字母的字符串，找到通过这些字母构造成的最长的回文串。
