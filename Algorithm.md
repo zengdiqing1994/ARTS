@@ -642,6 +642,22 @@ class Solution:
 
 
 242.有效的异位字符串
+
+给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的一个字母异位词。
+
+示例 1:
+
+输入: s = "anagram", t = "nagaram"
+输出: true
+示例 2:
+
+输入: s = "rat", t = "car"
+输出: false
+说明:
+你可以假设字符串只包含小写字母。
+
+思路：使用哈希表，通过统计出现的次数，来判断，数量一致就可以。
+
 ```py
 class Solution:
     def isAnagram(self, s, t):
@@ -657,6 +673,49 @@ class Solution:
              dic2[item] = dic2.get(item, 0) + 1
             
          return dic1 == dic2
+```
+时间复杂度：O(s*t)
+
+空间复杂度：O(n)
+
+3.给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+
+示例 1:
+
+输入: "abcabcbb"
+输出: 3 
+解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+示例 2:
+
+输入: "bbbbb"
+输出: 1
+解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+示例 3:
+
+输入: "pwwkew"
+输出: 3
+解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+     请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
+
+思路：
+
+```py
+    def lengthOfLongestSubstring(self, s):
+        lookup = collections.defaultdict(int)
+        l, r, counter, res = 0, 0, 0, 0 # counter 为当前子串中 unique 字符的数量
+        while r < len(s):
+            lookup[s[r]] += 1
+            if lookup[s[r]] == 1: # 遇到了当前子串中未出现过的字符
+                counter += 1
+            r += 1
+            # counter < r - l 说明有重复字符出现，否则 counter 应该等于 r - l
+            while l < r and counter < r - l:
+                lookup[s[l]] -= 1
+                if lookup[s[l]] == 0: # 当前子串中的一种字符完全消失了
+                    counter -= 1
+                l += 1
+            res = max(res, r - l) # 当前子串满足条件了，更新最大长度
+        return res
 ```
 
 
