@@ -549,8 +549,56 @@ class Solution:
         return max(maxSum)
 ```
 
+76.给定一个字符串 S 和一个字符串 T，请在 S 中找出包含 T 所有字母的最小子串。
 
+示例：
 
+输入: S = "ADOBECODEBANC", T = "ABC"
+输出: "BANC"
+说明：
+
+如果 S 中不存这样的子串，则返回空字符串 ""。
+如果 S 中存在这样的子串，我们保证它是唯一的答案。
+
+思路：总的来说，我们希望圈定一个最小的窗口，这个窗口里包含所有t中的字符，并且这个窗口的长度要最短。
+
+所以，我们需要边界指针left,right来去圈定我们窗口的范围。
+
+1.先遍历t中字符串，找到各字符出现个次数，储存在hash中。
+
+2.再遍历s中字符串，每遇到一个t中的字符，则把对应hash value - 1，如果这个字符对应的值大于等于0，则count++。这一段我们的目的是划定一个s中的区间，这个区间包含所有t中字符。count 表示t中有几个字符在s中（当前窗口区间），不包括s中多的重复的字符。
+
+3.当count 第一次等于 t.size()时，说明我们第一次圈定了一个区间，满足所有t中字符在这个区间中都可以找到，但不能保证最短。于是我们更新最短长度，以及最短字符串。接下来我们要右移我们的窗口了，如果我们这个窗口的第一项（也就是要挪动，要移除的那一项）是组成t所需要的，那我们如果要移除掉它，则hash值要加一，因为我们当前窗口接下来不会包含那个字符了，同时count也要根据情况减少，因为count表示s窗口中能找到t的几个字符，现在窗口右移，不包含那个必须组件了，于是要-1。
+
+```py
+def solution(s, t):
+    res = ""
+    if len(s) < len(t):
+        return res
+
+    left, right = 0, 0
+    min_len = len(s) + 1
+    m = {}
+    count = 0
+    for i in t:
+        m[i] = m.get(i, 0) + 1
+    while right < len(s):
+        if s[right] in m:
+            m[s[right]] -= 1
+            if m[s[right]] >= 0:
+                count += 1
+            while (count == len(t)):
+                if(right - left + 1 < min_len):
+                    min_len = right - left + 1
+                    res = s[left:right+1]
+                if s[left] in m:
+                    m[s[left]] += 1
+                    if m[s[left]] > 0:
+                        count -= 1
+                left += 1
+        right += 1
+    return res
+```
 
 
 
