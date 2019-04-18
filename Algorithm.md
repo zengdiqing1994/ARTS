@@ -12,19 +12,19 @@
 #### 1.快速排序
 
 ```py
-Class QuickSort:
-    def quickSort(self,A,n):
-        if n <= 1:
+class QuickSort:
+    def quickSort(self, A, n):
+        if n<1:
             return A
         left = []
         right = []
         pivot = A.pop()
         for i in A:
-            if i < pivot:
-                A.append(left[i])
+            if i<pivot:
+                left.append(i)
             else:
-                A.append(right[i])
-        result = self.quickSort(left[i]) + [pivot] + self.quickSort(right[i])
+                right.append(i)
+        result = self.quickSort(left,len(left)) + [pivot] + self.quickSort(right,len(right))
         return result
 ```
 
