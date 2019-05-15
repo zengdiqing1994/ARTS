@@ -1,4 +1,5 @@
 [数组](#数组)
+
 [链表](#链表)
 
 ### 数组
@@ -101,4 +102,35 @@ class Solution:
                 j+=1
             else:
                 return True
+```
+
+### 链表
+
+22.链表中倒数第k个结点
+
+**思路：**
+
+设链表的长度为N，设两个指针p1,p2,先让p1移动k个节点，则还有N-K个节点可以移动。此时让p1和p2同时移动，可知当p1移动到链表结尾时，p2移动到N-K个节点处
+，该位置就是倒数第k个节点。
+
+```py
+class Solution:
+    def FindKthToTail(self, head, k):
+        # write code here
+        if head == None or k <= 0:
+            return None
+        
+        pAhead = head
+        pBhead = None
+        
+        for i in range(k-1):
+            if pAhead.next != None: #先让p1指针移动
+                pAhead = pAhead.next
+            else:
+                return None
+        pBhead = head   
+        while pAhead.next != None:     #再同时移动p1,p2,最终p1到终点的时候就是倒数第k个
+            pAhead = pAhead.next
+            pBhead = pBhead.next
+        return pBhead
 ```
