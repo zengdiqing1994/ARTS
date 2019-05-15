@@ -106,9 +106,42 @@ class Solution:
 
 ### 链表
 
-22.链表中倒数第k个结点
+**18.（1）删除链表中的节点**
 
-**思路：**
+思路:
+
+我们指定要删除node指向的那个值，我们无法拿到之前的节点，只能操作当前的节点。我们将下一个节点的值赋值给当前节点，这样看上去已经删除了，删除掉一个就好.
+
+```py
+class Solution:
+    def deleteNode(self, node):
+        """
+        :type node: ListNode
+        :rtype: void Do not return anything, modify node in-place instead.
+        """
+        if node==None:#注意边界
+            return
+        if node.next==None:#代表node是最后一个结点
+            del node  #删除，将node设定为none
+            node = None
+            return
+        
+        node.val = node.next.val
+        delNode = node.next
+        node.next = delNode.next
+        del delNode
+        return 
+```
+**18.(2)删除链表中的重复节点**
+
+思路：
+
+
+
+
+**22.链表中倒数第k个结点**
+
+思路：
 
 设链表的长度为N，设两个指针p1,p2,先让p1移动k个节点，则还有N-K个节点可以移动。此时让p1和p2同时移动，可知当p1移动到链表结尾时，p2移动到N-K个节点处
 ，该位置就是倒数第k个节点。
