@@ -134,7 +134,35 @@ class Solution:
 ```
 **18.(2)删除链表中的重复节点**
 
-思路：
+思路：需要确定删除函数的参数，这个函数需要输入待删除链表的头节点。头节点可能与后面的节点重复，也就是说头节点也可能被删除。接下来从头遍历整个链表。如果当前节点first与下一个节点pHead相同时，那么就是重复的节点，都可以被删除。为了保证删除之后的链表人然是相连的，我们要把当前节点的前一个节点和后面值比当前节点的值大的节点相连。要确保之前的节点始终与下一个没有重复的节点连在一起。
+
+1——2——3——3——4——4——5
+
+1——2——5
+
+比如，遍历到第一个值为3的时候，前一个节点为2.接下来还是3,这两个节点都应该被删除，所以前一个节点2应该和4相连，由于4也是两个，所以还是会删除，所以最终2会合5相连。
+
+```py
+class Solution:
+    def deleteDuplication(self, pHead):
+        # write code here
+        if pHead is None or pHead.next is None:
+            return pHead
+        first = ListNode(-1)
+        first.next = pHead
+        last = first
+        while pHead and pHead.next:
+            if pHead.val == pHead.next.val:
+                val = pHead.val
+                while pHead and val == pHead.val:
+                    pHead = pHead.next
+                last.next = pHead
+                
+            else:
+                last = pHead
+                pHead = pHead.next
+        return first.next
+```
 
 
 
