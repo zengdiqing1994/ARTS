@@ -1,5 +1,7 @@
 [数组](#数组)
 
+[字符串](#字符串)
+
 [链表](#链表)
 
 [树](#树)
@@ -108,6 +110,10 @@ class Solution:
                 return True
 ```
 
+### 字符串
+
+
+
 ### 链表
 
 **18.（1）删除链表中的节点**
@@ -199,6 +205,8 @@ class Solution:
             pBhead = pBhead.next
         return pBhead
 ```
+
+
 
 ### 树
 
