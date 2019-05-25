@@ -206,6 +206,47 @@ class Solution:
         return pBhead
 ```
 
+**23.链表中环的入口点**
+
+思路：我们可以使用双指针，一个指针fast每次移动两个节点，一个指针slow每次移动一个节点，因为存在环，所以两个指针必定相遇在环中的某个节点上。
+
+```py
+class Solution:
+    def MeetNode(self,head):
+        if not head:
+            return None
+        slow = head.next
+        if slow == None:
+            return None
+        fast = slow.next
+        while fast:
+            if slow == fast:
+                return slow
+            slow = slow.next
+            fast = fast.next.next
+            
+    def EntryNodeOfLoop(self, pHead):
+        # write code here
+        meetNode = self.MeetNode(pHead)
+        if not meetNode:
+            return None:
+        loop = 1
+        flag = meetNode
+        while flag.next != meetNode:
+            loop += 1
+            flag = flag.next
+            
+        fast = pHead
+        for i in range(loop):
+            fast = fast.next
+        slow = pHead
+        while fast != slow:
+            fast = fast.next
+            slow = slow.next
+        return fast
+```
+
+
 
 
 ### 树
