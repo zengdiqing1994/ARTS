@@ -2,7 +2,7 @@
 
 Algorithm, Review, Tips, Share
 
-Algorithm：[LeetCode分类刷题](https://github.com/zengdiqing1994/ARTS/blob/master/Algorithm.md)  ，  [剑指Offer算法题](https://github.com/zengdiqing1994/ARTS/blob/master/%E5%89%91%E6%8C%87offer.md)
+Algorithm：[LeetCode分类刷题](https://github.com/zengdiqing1994/ARTS/blob/master/Algorithm_LeetCode.md)  ，  [剑指Offer算法题](https://github.com/zengdiqing1994/ARTS/blob/master/%E5%89%91%E6%8C%87offer.md)
 
 Review：人工智能英文论文总结分析
 
