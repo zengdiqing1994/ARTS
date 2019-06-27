@@ -5,7 +5,11 @@
 
 [链表](#链表)
 
+[堆/栈/队列](#堆/栈/队列)
+
 [二叉树](#二叉树)
+
+[动态规划](#动态规划)
 
 
 
@@ -1155,6 +1159,64 @@ class Solution:
             else:
                 return num
  ```
+ 
+ 
+ **242.有效字母的异位词**
+
+给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的一个字母异位词。
+
+示例 1:
+
+输入: s = "anagram", t = "nagaram"
+输出: true
+示例 2:
+
+输入: s = "rat", t = "car"
+输出: false
+
+思路：
+
+第一种方法：排序
+
+因为字母都是一样的才行，那么我们直接让string字符串按照顺序排列下来，一样的即可。很简单。但是这里时间复杂度最低也是NlogN，就算是快排。
+
+第二种方法：Map：计数
+
+{letter： Count}
+
+Map -> Count {a:3, n:1.....}
+
+时间复杂度来看，这只是在计数，所以是O(N)，如果再加上插入删除和查询，都是O(1)，所以合起来也是O(N)，所以这种方法略快于排序的算法。
+
+代码：
+
+```
+class Solution:
+    def isAnagram(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+#         dic1, dic2 = {}, {}
+#         for item in s:
+#             dic1[item] = dic1.get(item, 0) + 1
+#         for item in t:
+#             dic2[item] = dic2.get(item, 0) + 1
+            
+#         return dic1 == dic2
+
+        dic1, dic2 = [0]*26, [0]*26 #一共也就26个英文字母
+        for item in s:
+            dic1[ord(item)-ord('a')] += 1 #计数中~
+            
+        for item in t:
+            dic2[ord(item)-ord('a')] += 1
+        
+        return dic1 == dic2
+```
+ 
+ 
 
 .报数序列是指一个整数序列，按照其中的整数的顺序进行报数，得到下一个数。其前五项如下：
 
@@ -1223,6 +1285,95 @@ class Solution:
 ```
 
 
+
+392. 判断子序列
+
+给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
+
+你可以认为 s 和 t 中仅包含英文小写字母。字符串 t 可能会很长（长度 ~= 500,000），而 s 是个短字符串（长度 <=100）。
+
+字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，"ace"是"abcde"的一个子序列，而"aec"不是）。
+
+示例 1:
+s = "abc", t = "ahbgdc"
+
+返回 true.
+
+示例 2:
+s = "axc", t = "ahbgdc"
+
+返回 false.
+
+后续挑战 :
+
+如果有大量输入的 S，称作S1, S2, ... , Sk 其中 k >= 10亿，你需要依次检查它们是否为 T 的子序列。在这种情况下，你会怎样改变代码？
+
+**思路：**
+
+这里又用到了双指针：
+
+s: a  b  c
+
+   |
+   
+   s_p
+
+
+t: a  h  b  g  c  k
+
+   |
+   
+  t_p
+  
+  
+这里我们不断移动t_p指针，看t_p指向的元素是否和s_p指向的相等，如果不相等的话继续移动t_p，如果相等的话也一并移动s_p，直到t_p到达了t的边界。在这期间，
+如果s_p已经到达了s的边界的话，就直接返回True。若整个循环结束，就是t遍历完都没有返回true的话，就说明不存在，返回false
+
+代码：
+```
+class Solution:
+    def isSubsequence(self, s, t):
+        if s == None or t == None:  #判断字符串的是否为空
+        return False
+        
+        len_s = len(s)    #长度获取
+        len_t = len(t)    
+        if len_t < len_s:   #判断长度的真实性
+            return False
+        if len_s == 0:
+            return True
+        j=0
+        for i in range(len_t):    #若对于t串来讲，若和s相等，就继续移动
+            if s[j] == t[i]:
+                j+=1              
+            if j == len_s:    #最终如果移动的次数和s的长度相等就返回True
+                return True
+        return False
+```
+
+python内置了find()函数可以快速定位字符的位置
+```
+class Solution:
+    def isSubsequence(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        for seq_s in s:
+            s_index = t.find(seq_s)
+            if s_index == -1:
+                return False
+            if s_index == len(t) - 1: #如果找到的匹配的s达到了t的长度
+                t = str()             #字符串长度赋给t
+            else:                   
+                t = t[s_index+1:]       #若还没匹配完，从下一个开始继续
+        return True
+```
+
+
+
+
 ### 链表
 
 **23.合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。**
@@ -1240,6 +1391,371 @@ class Solution:
 ```py
 
 ```
+
+
+反转链表
+反转一个单链表。
+
+示例:
+
+输入: 1->2->3->4->5->NULL
+输出: 5->4->3->2->1->NULL
+进阶:
+你可以迭代或递归地反转链表。你能否用两种方法解决这道题？
+
+```
+class Solution:
+    def reverseList(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        if not head or not head.next:
+            return head  #为空或只有一个数直接返回
+        
+        cur = head #假设头结点是现在cur
+        newlist = None
+        while cur:
+            temp = cur.next  #暂存cur的下一个地址
+            cur.next = newlist  #cur.next指向这个新的链表，相当于断开cur与后面的连接
+            newlist = cur #将当前连接赋给新链表
+            cur  = temp #再把下一个地址给上一个的
+        return newlist
+    
+```
+
+
+1.合并两个有序链表
+将两个有序链表合并为一个新的有序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 
+
+示例：
+
+输入：1->2->4, 1->3->4
+输出：1->1->2->3->4->4
+
+思路：合并的话首先得把两个链表拆开，比较这两个链表分别对应的大小，排序
+```
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def mergeTwoLists(self, l1, l2):
+        """
+        :type l1: ListNode
+        :type l2: ListNode
+        :rtype: ListNode
+        """
+        i = l1
+        j = l2
+        head = l1
+        if l1 is None:
+            return l2
+        if l2 is None:
+            return l1
+        if j.val < i.val:
+            head = j
+            while j.next is not None and j.next.val <= i.val:
+                j = j.next
+            t = j
+            j = j.next
+            t.next = i
+            
+        while i != None and j != None:
+            if i.next != None:
+                if i.next.val > j.val:
+                    t = j
+                    j = j.next
+                    t.next = i.next
+                    i.next = t
+                    i = i.next
+                else:
+                    i = i.next
+            else:
+                i.next = j
+                break
+        return head
+```
+
+2.回文链表
+请判断一个链表是否为回文链表。
+
+示例 1:
+
+输入: 1->2
+输出: false
+示例 2:
+
+输入: 1->2->2->1
+输出: true
+进阶：
+你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？
+思路：最简单的思路就是把指针的下一个给在定义的列表中，迭代。在倒过来判断。
+```
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def isPalindrome(self, head):
+        """
+        :type head: ListNode
+        :rtype: bool
+        """
+        if head is None or head.next is None:
+            return True
+        l = []
+        p = head
+        while p.next:
+            l.append(p.val)
+            p = p.next
+        l.append(p.val)
+        return l == l[::-1]
+```
+
+
+这次再来回顾一下链表的算法实现
+
+1.反转链表
+反转一个单链表。
+
+示例:
+
+输入: 1->2->3->4->5->NULL
+输出: 5->4->3->2->1->NULL
+进阶:
+你可以迭代或递归地反转链表。你能否用两种方法解决这道题？
+
+思路：一般想到的就是将链表的后续结点的指针指向前继结点，但是如何去实现呢？
+```
+class Solution:
+    def reverseList(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        
+        cur,prev = head,None
+        while cur:
+            cur.next,prev,cur = prev,cur,cur.next  ###这样一行代码即可表示三个变量之间的赋值
+        return prev
+```
+
+2.链表交换相邻元素-swap node
+思路：类似的，只要把相邻的两个结点互相指向即可。
+```
+def swapPairs(self, head)
+  pre,pre.next = self,head
+  while pre.next and pre.next.next:
+    a = pre.next
+    b = a.next
+    pre.next, b.next, a.next = b,a,b.next  
+    pre = a
+  return self.next
+```
+
+
+
+3.环形链表
+给定一个链表，判断链表中是否有环。
+
+进阶：
+你能否不使用额外空间解决此题？
+
+思路：这里有一个快慢指针的技巧，就是设置两个指针，一个走两步，另一个走一步，一开始都指向头结点，之后如果相遇则说明是环形，如果遇不到(不等于）则说明不是环形。
+
+```
+class Solution(object):
+    def hasCycle(self, head):
+        """
+        :type head: ListNode
+        :rtype: bool
+        """
+        fast = slow = head
+        while slow and fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if slow is fast:
+                return True
+        return False
+```
+
+
+
+
+### 堆/栈/队列
+
+#### 1.有效的括号
+给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
+
+有效字符串需满足：
+
+左括号必须用相同类型的右括号闭合。
+左括号必须以正确的顺序闭合。
+注意空字符串可被认为是有效字符串。
+
+示例 1:
+
+输入: "()"
+输出: true
+示例 2:
+
+输入: "()[]{}"
+输出: true
+示例 3:
+
+输入: "(]"
+输出: false
+示例 4:
+
+输入: "([)]"
+输出: false
+示例 5:
+
+输入: "{[]}"
+输出: true
+
+思路：这个可以用堆栈的思想去解决，先设立一个栈准备放东西，然后把括号组成一个键值对，然后往栈里面push值value，再判断进来的是否是括号的右边匹配部分，如果不是匹配的，就返回False，如果一开始就不在值里面，就相当于一开始就不是左括号，那一定是错误的False
+
+```
+class Solution:
+    def isValid(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+       
+        stack = []
+        dict = {"]": "[", "}": "{", ")": "("}
+        for char in s:
+            if char in dict.values():
+                stack.append(char)
+            elif char in dict.keys():
+                if stack == [] or dict[char] != stack.pop():
+                    return False
+            else:
+                return False
+        return stack == []
+```
+
+
+1.用栈实现队列
+使用栈实现队列的下列操作：
+
+push(x) -- 将一个元素放入队列的尾部。
+pop() -- 从队列首部移除元素。
+peek() -- 返回队列首部的元素。
+empty() -- 返回队列是否为空。
+示例:
+
+MyQueue queue = new MyQueue();
+
+queue.push(1);
+queue.push(2);  
+queue.peek();  // 返回 1
+queue.pop();   // 返回 1
+queue.empty(); // 返回 false
+说明:
+
+你只能使用标准的栈操作 -- 也就是只有 push to top, peek/pop from top, size, 和 is empty 操作是合法的。
+你所使用的语言也许不支持栈。你可以使用 list 或者 deque（双端队列）来模拟一个栈，只要是标准的栈操作即可。
+假设所有操作都是有效的 （例如，一个空的队列不会调用 pop 或者 peek 操作）。
+
+**思路**：1、用一个栈实现进队，另一个栈实现出队 
+      2、需要进队的时候把元素压如stack1中，需要出队的时候把stack1中的元素全部弹出至stack2中 
+      3、从stack2中出队，即可实现先进先出
+
+```
+class MyQueue:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.stack1 = []
+        self.stack2 = []
+
+    def push(self, x):
+        """
+        Push element x to the back of queue.
+        :type x: int
+        :rtype: void
+        """
+        self.stack1.append(x)
+        
+
+    def pop(self):
+        """
+        Removes the element from in front of queue and returns that element.
+        :rtype: int
+        """
+        if self.stack2:
+            return self.stack2.pop()
+        else:
+            while self.stack1:
+                self.stack2.append(self.stack1.pop())
+            return self.stack2.pop()
+
+```
+
+
+
+
+2.使用队列实现栈的下列操作：
+
+push(x) -- 元素 x 入栈
+pop() -- 移除栈顶元素
+top() -- 获取栈顶元素
+empty() -- 返回栈是否为空
+注意:
+
+你只能使用队列的基本操作-- 也就是 push to back, peek/pop from front, size, 和 is empty 这些操作是合法的。
+你所使用的语言也许不支持队列。 你可以使用 list 或者 deque（双端队列）来模拟一个队列 , 只要是标准的队列操作即可。
+你可以假设所有操作都是有效的（例如, 对一个空的栈不会调用 pop 或者 top 操作）。
+
+**思路**：进栈：元素入队列A
+
+出栈：判断如果队列A只有一个元素，则直接出队。否则，把队A中的元素出队并入队B，直到队A中只有一个元素，再直接出队。为了下一次继续操作，互换队A和队B。
+
+复杂度分析：
+
+第一种形式：如果以列表尾作为队尾，直接用 append 插入新元素，复杂度为O(1)。
+
+再用pop去弹出队首，也就是列表第0个元素，弹出后插入到另一个队列中。第一次 pop，需要移动列表后面n-1个元素，第二次 pop，需要移动后面n-2个元素……直到最后只剩最后一个元素，直接出队。
+
+复杂度：(n-1)+(n-2)+……+1=O(n^2)。
+
+第二种形式：如果以列表首作为队尾，用 insert 插入新元素，需要移动后面的元素，复杂度则为O(n)。
+
+再用pop去弹出队首，也就是列表最后一个元素，弹出后插入到另一个队列中。这样操作虽然弹出元素的复杂度为O(1)，但再插入另一个队列的复杂度则为O(n)，因为要连续弹出n-1个元素，则需要连续插入n-1个元素，最后的复杂度同样会是O(n^2)。
+
+因此选择第一种形式。
+
+而直接用python的一个列表实现栈，以列表尾为栈首，则出栈和进栈的复杂度都为O(1)。
+
+实现：就以列表作为队列的底层实现，只要保证先进先出的约束就是队列。这里只实现进栈和出栈两个操作。
+
+```
+class Stock:
+    def __init__(self):
+        self.queueA=[]
+        self.queueB=[]
+    def push(self, node):
+        self.queueA.append(node)
+    def pop(self):
+        if len(self.queueA)==0:
+            return None
+        while len(self.queueA)!=1:
+            self.queueB.append(self.queueA.pop(0))
+        self.queueA,self.queueB=self.queueB,self.queueA #交换是为了下一次的pop
+        return self.queueB.pop()
+```
+
+
 
 
 
@@ -1756,6 +2272,90 @@ class Solution:
         return result
 ```
 
+### 动态规划
+
+**爬楼梯**
+假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
+
+每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
+
+注意：给定 n 是一个正整数。
+
+示例 1：
+
+输入： 2
+输出： 2
+解释： 有两种方法可以爬到楼顶。
+1.  1 阶 + 1 阶
+2.  2 阶
+示例 2：
+
+输入： 3
+输出： 3
+解释： 有三种方法可以爬到楼顶。
+3.  1 阶 + 1 阶 + 1 阶
+4.  1 阶 + 2 阶
+5.  2 阶 + 1 阶
+
+**思路：**
+爬楼梯算是DP的经典题目，递归+记忆化，也就是递推，我们需要定义号状态，还有状态的转移方程。最后爬的步数还是得看之前的，即依赖之前的步骤。
+
+1.反着考虑，有几种方案到第i阶楼梯，答案是2种：
+
+第i-1阶楼梯经过一步
+第i-2阶楼梯经过两步
+假设count(i)表示到第i阶楼梯方案的个数，则count(i) = count(i-1) + count(i-2) 
+第一阶是1种，第二阶是2种。代码如下：
+
+```
+class Solution:
+    def climbStairs(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        count = [1,2]   #一次就只能走这两步
+        for i in range(2,n):
+            count.append(count[i-1]+count[i-2])	#不停地把后面的台阶的结束放到count里面
+        return count[n-1]
+```
+但是太慢了。。。这里起码O(n!)
+
+2.我们想到可以转化为fibonaqi问题。假设一共有10阶楼梯，每步可以爬1步或者2步，那么你爬到10阶一共有两种方法，从8阶爬2步，或从9阶爬1步，那么爬到9阶也是这样，那这就是一共基本的斐波那契数列。
+dp[i] = dp[i-1] + dp[i-2]
+i-1的时候跳一步可以到达i
+i-2的时候跳一步是i-1，这个变成dp[i-1]的子问题了,直接跳两步可以到达i
+
+```
+class Solution:
+    def climbStairs(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        dp = [1 for i in range(n+1)]   #状态的定义
+        for i in range(2,n+1):
+            dp[i] = dp[i-1]+dp[i-2]	#状态转移方程
+        return dp[n]
+```
+这里应该是O(n^2)
+3.还有一种更快速的，列表初始化好，然后再用fibonaqi数列转移方程。
+
+```
+class Solution:
+    def climbStairs(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        condition = [0]*(n+1)		#牛逼的初始化列表
+        condition[0] = 1
+        condition[1] = 1
+        for i in range(2,n+1):
+            condition[i] = condition[i-1]+condition[i-2]   #依然还是状态转移fibonaqo
+        return condition[n]
+```
+这里列表初始化只用来O(1)，最后复杂度为O(n)
 
 
 
