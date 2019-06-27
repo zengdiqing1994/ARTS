@@ -247,6 +247,27 @@ class Solution:
         return fast
 ```
 
+**24.反转链表**
+
+思路：链表这一类题目比较需要指针的参与，把各个结点的指向反转一下的话，我们就需要有三个指针，pre，cur，nxt，我们遍历的时候需要把这三个指针依次往后挪，然后再让cur.next指向前继结点pre，依次循环，直到nxt为None。注意，如果不在循环里面，我们也需要做一次反向指针的操作。
+
+```py
+class Solution:
+    def ReversedList(self,head):
+        if head is None:
+            return None
+        pre = None
+        cur = head
+        nxt = cur.next
+        while nxt:
+            cur.next = pre
+            pre = cur
+            cur = nxt
+            nxt = nxt.next
+        cur.next = pre
+        head = cur
+        return cur
+```
 
 
 
