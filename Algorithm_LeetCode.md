@@ -1412,15 +1412,17 @@ class Solution:
         """
         if not head or not head.next:
             return head  #为空或只有一个数直接返回
-        
+        pre = None
         cur = head #假设头结点是现在cur
-        newlist = None
-        while cur:
-            temp = cur.next  #暂存cur的下一个地址
-            cur.next = newlist  #cur.next指向这个新的链表，相当于断开cur与后面的连接
-            newlist = cur #将当前连接赋给新链表
-            cur  = temp #再把下一个地址给上一个的
-        return newlist
+        nxt = cur.next
+        while nxt:
+            cur.next = pre  #cur的下一个指向pre，也就是反过来
+            pre = cur  # pre指向cur
+            cur = nxt #将当前连接赋给下一个
+            nxt = nxt.next
+        cur.next = pre
+        head = cur #头结点指向cur当前结点
+        return cur
     
 ```
 
