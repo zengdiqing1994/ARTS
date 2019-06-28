@@ -269,6 +269,25 @@ class Solution:
         return cur
 ```
 
+**25.合并两个有序链表**
+
+思路：如果链表1的头结点的值小于链表2的头结点的值，所以链表1的头结点是合并后链表的头结点。继续合并，依然是排好序的，所以合并的步骤和之前是一样的，当我们得到两个链表中值较小的头结点并把它连接到已经合并的链表之后，两个链表还是有序的，这是典型的递归过程。
+
+```py
+def Merge(self,pHead1,pHead2):
+    if pHead1 == None:
+        return pHead2
+    if pHead2 == None:
+        return pHead1
+    pMergeHead = None
+    if pHead1.val < pHead2.val:
+        pMergeHead = pHead1
+        pMergeHead.next = self.Merge(pHead1.next,pHead2)
+    else:
+        pMergeHead = pHead2
+        pMergeHead.next = self.Merge(pHead1,pHead2.next)
+     return pMergeHead
+```
 
 
 ### 树
