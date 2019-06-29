@@ -1393,7 +1393,8 @@ class Solution:
 ```
 
 
-反转链表
+**206.反转链表**
+
 反转一个单链表。
 
 示例:
@@ -1403,7 +1404,7 @@ class Solution:
 进阶:
 你可以迭代或递归地反转链表。你能否用两种方法解决这道题？
 
-```
+```py
 class Solution:
     def reverseList(self, head):
         """
@@ -1423,11 +1424,11 @@ class Solution:
         cur.next = pre
         head = cur #头结点指向cur当前结点
         return cur
-    
 ```
 
 
-1.合并两个有序链表
+**21.合并两个有序链表**
+
 将两个有序链表合并为一个新的有序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 
 
 示例：
@@ -1436,7 +1437,7 @@ class Solution:
 输出：1->1->2->3->4->4
 
 思路：合并的话首先得把两个链表拆开，比较这两个链表分别对应的大小，排序
-```
+```py
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, x):
@@ -1479,6 +1480,34 @@ class Solution:
                 i.next = j
                 break
         return head
+```
+
+```py
+class Solution:
+    def mergeTwoLists(self, l1, l2):
+        """
+        :type l1: ListNode
+        :type l2: ListNode
+        :rtype: ListNode
+        """
+        h = ListNode(-1)
+        cur = h
+        
+        cur1 = l1
+        cur2 = l2
+        while cur1 != None and cur2 != None:
+            if cur1.val <= cur2.val:
+                cur.next = cur1
+                cur1 = cur1.next
+            else:
+                cur.next = cur2
+                cur2 = cur2.next
+            cur = cur.next
+        if cur1 != None:
+            cur.next = cur1
+        if cur2 != None:
+            cur.next = cur2
+        return h.next
 ```
 
 2.回文链表
