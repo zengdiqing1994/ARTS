@@ -1510,6 +1510,22 @@ class Solution:
         return h.next
 ```
 
+```py
+def Merge(self,pHead1,pHead2):
+    if pHead1 == None:
+        return pHead2
+    if pHead2 == None:
+        return pHead1
+    pMergeHead = None
+    if pHead1.val < pHead2.val:
+        pMergeHead = pHead1
+        pMergeHead.next = self.Merge(pHead1.next,pHead2)
+    else:
+        pMergeHead = pHead2
+        pMergeHead.next = self.Merge(pHead1,pHead2.next)
+     return pMergeHead
+```
+
 2.回文链表
 请判断一个链表是否为回文链表。
 
