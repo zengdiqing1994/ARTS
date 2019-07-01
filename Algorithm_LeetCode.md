@@ -1388,8 +1388,39 @@ class Solution:
 ]
 输出: 1->1->2->3->4->4->5->6
 
-```py
+看到思路有heap，similar question有ugly number|| -> 这个是用heapq来解决的
 
+那么就用heap吧？ heapsort
+
+最简单的做法是只要每个list里面还有node，就把他们扔到minheap里面去，然后再把minheap pop，一个一个node连起来，听起来时间复杂度和空间复杂度都蛮高的。
+直接merge必然是不好的，因为没有利用有序这个点，应该做的是每次取来一个，然后再把应该的下一个放入
+
+写到这里瞬间明白和ugly number ii像的点了，甚至感觉跟find in sorted matrix ii也像
+
+```py
+class Solution:
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        from heapq import heappush, heappop
+        node_pools = []
+        lookup = collections.defaultdict(list)
+        for head in lists:
+            if head:
+                heappush(node_pools, head.val)
+                lookup[head.val].append(head)
+        dummy = cur = ListNode(None)
+        while node_pools:
+            smallest_val = heappop(node_pools)
+            smallest_node = lookup[smallest_val].pop(0)
+            cur.next = smallest_node
+            cur = cur.next
+            if smallest_node.next:
+                heappush(node_pools, smallest_node.next.val)
+                lookup[smallest_node.next.val].append(smallest_node.next)
+        return dummy.next
 ```
 
 
@@ -1436,7 +1467,8 @@ class Solution:
 输入：1->2->4, 1->3->4
 输出：1->1->2->3->4->4
 
-思路：合并的话首先得把两个链表拆开，比较这两个链表分别对应的大小，排序
+思路：合并的话首先得把两个链表拆开，比较这两个链表分别对应的大小，排序,三种解法：
+
 ```py
 # Definition for singly-linked list.
 # class ListNode:
@@ -1540,7 +1572,8 @@ def Merge(self,pHead1,pHead2):
 进阶：
 你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？
 思路：最简单的思路就是把指针的下一个给在定义的列表中，迭代。在倒过来判断。
-```
+
+```py
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, x):
@@ -1578,7 +1611,7 @@ class Solution:
 你可以迭代或递归地反转链表。你能否用两种方法解决这道题？
 
 思路：一般想到的就是将链表的后续结点的指针指向前继结点，但是如何去实现呢？
-```
+```py
 class Solution:
     def reverseList(self, head):
         """
@@ -1594,7 +1627,7 @@ class Solution:
 
 2.链表交换相邻元素-swap node
 思路：类似的，只要把相邻的两个结点互相指向即可。
-```
+```py
 def swapPairs(self, head)
   pre,pre.next = self,head
   while pre.next and pre.next.next:
