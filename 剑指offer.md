@@ -288,7 +288,40 @@ def Merge(self,pHead1,pHead2):
         pMergeHead.next = self.Merge(pHead1,pHead2.next)
      return pMergeHead
 ```
+**52.两个链表的第一个公共节点**
 
+思路：设置A的长度是a+c，B的长度是b+c，其中c是尾部公共部分的长度。
+
+当访问链表A的指针访问到链表尾部时，令它从链表A的头部重新开始访问链表B；同样的，当访问链表B的指针访问到链表尾部时，令它从链表A的头部重新开始访问A，这样就能控制访问A和B的两个链表指针能同时访问到交点。
+
+```py
+def FindFirstCommonNode(self,pHead1,pHead2):
+    if not pHead1 or not pHead2:
+        return None
+    p1,p2 = pHead1,pHead2
+    len1 = len2 = 0
+    while p1:
+        len1 += 1
+        p1 = p1.next
+    whiel p2:
+        len2 += 1
+        p2 = p2.next
+    if len1 > len2:
+        while len1 - len2:
+            pHead1 = pHead1.next
+            len1 -= 1
+    else:
+        while len2-len1:
+            pHead2 = pHead2.next
+            len2 -= 1
+    while pHead1 and pHead2:
+        if pHead1 is pHead2:
+            retun pHead1
+        pHead1 = pHead1.next
+        pHead2 = pHead2.next
+    return None
+
+```
 
 ### 树
 
