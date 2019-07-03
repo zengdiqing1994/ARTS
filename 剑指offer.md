@@ -1,4 +1,4 @@
-[数组](#数组)
+﻿[数组](#数组)
 
 [字符串](#字符串)
 
@@ -88,7 +88,7 @@ class Solution:
 思路：
 
 首先选取数组中右上角的数字，如果该数字等于要查找的数字，则查找过程结束；如果数字大于要查找的数字，则剔除这个数字所在的列；如果该数字小于要查找的数字，则
-剔除这个数字所在的行。也就是说，如果要查找的数字不在数组的右上角，则每一次都在数组的查找范围中剔除一行或者一列，这样每一步都可以缩小查找的范围，知道找到
+剔除这个数字所在的行。也就是说，如果要查找的数字不在数组的右上角，则每一次都在数组的查找范围中剔除一行或者一列，这样每一步都可以缩小查找的范围，直到找到
 查找的数字。
 
 ```py
@@ -109,6 +109,53 @@ class Solution:
                 j+=1
             else:
                 return True
+```
+
+**21.调整数组顺序使得奇数位于偶数前面**
+
+思路：遍历数组，奇数前插入，偶数后面插入。这里使用sorted排序，python简直了。
+
+```py
+def reOrderArray(self,array):
+    return sorted(array, key = lambda c:c%2, reversed=True)
+```
+
+**39.数组中出现次数超过一半的数字**
+
+思路：多数投票问题，可以利用时间复杂度维O（N）方法来解决这个问题。
+
+使用cnt来统计一个元素出现的次数，当遍历到的元素和统计元素相等时，令cnt++，否则令cnt--，如果前面查找了i个元素，且cnt==0，说明前i个元素没有majority，或者
+有majority，但是次数少于i/2，因为如果多于i/2的话cnt就一定不会为0.此时剩下的n-i个元素中，majority的数目依然多余(n-i)/2，因此继续查找就能找出majority
+
+```py
+class Solution:
+    def MoreThanHalfNum_Solution(self, numbers):
+        # write code here
+        length = len(numbers)
+        if not numbers:
+            return 0
+        result = numbers[0]
+        times = 1
+        for i in range(1,length):
+            if times == 0:
+                result = numbers[i]
+                times = 1
+            elif numbers[i] == result:
+                times += 1
+            else:
+                times -= 1
+        if not self.CheckNoreThanHalf(numbers,length,result):
+            return 0
+        return result
+        
+    def CheckNoreThanHalf(self,numbers,length,number):
+        times = 0
+        for i in range(length):
+            if numbers[i] == number:
+                times += 1
+        if times*2 <= length:
+            return False
+        return True
 ```
 
 ### 字符串
