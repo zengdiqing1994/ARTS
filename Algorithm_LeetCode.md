@@ -1,4 +1,4 @@
-# Algorithm
+﻿# Algorithm
 [七大排序算法](#七大排序算法)
 
 [数组字符串](#数组字符串)
@@ -223,6 +223,11 @@ class Solution:
 
 
 
+
+
+
+### 数组字符串
+
 1.给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
 
 你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
@@ -233,6 +238,9 @@ class Solution:
 
 因为 nums[0] + nums[1] = 2 + 7 = 9
 所以返回 [0, 1]
+
+思路：hash表，也就是dict字典，target=9,nums[]=2,tmp=9-2=7,如果2不在dict里面，就把i=0传给dic[7]，就是{7:0}，index是0。如果num[1]也就是7在dic里面，
+就返回dic[7]对应的0的index，i就是1
 
 ```py
 def twoSum(nums,target):
@@ -245,8 +253,6 @@ def twoSum(nums,target):
             dic[tmp] = i
 ```
 
-
-### 数组字符串
 
 6.将一个给定字符串根据给定的行数，以从上往下、从左到右进行 Z 字形排列。
 
@@ -297,9 +303,6 @@ class Solution:
             idx += step             #idx代表第几行
         return ''.join(res)         
 ```
-
-
-
 
 
 33.假设按照升序排序的数组在预先未知的某个点上进行了旋转。
@@ -785,7 +788,7 @@ class Solution:
 ```
 
 
-Remove Duplicates from Sorted Array 
+**26.Remove Duplicates from Sorted Array**
 
 Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length.
 
@@ -813,7 +816,7 @@ It doesn't matter what values are set beyond the returned length.
 是一个没有返回值的原位置改变的方法，他修改了列表但是没有返回值。由于给定的是排序数组，这就容易多了，比较两两相邻的数组元素，相同就把其中的一个利用
 remove方法从列表中移除。
 
-```
+```py
 class Solution:
     def removeDuplicates(self, nums):
         """
@@ -827,6 +830,21 @@ class Solution:
             else:
                 i = i+1
         return len(nums)
+```
+
+```py
+class Solution:
+    def removeDuplicates(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        idx = 0
+        for num in nums:
+            if idx < 1 or num != nums[idx-1]:
+                nums[idx] = num
+                idx += 1
+        return idx
 ```
 特别简单的一题。自己还想了很久。。。
 
