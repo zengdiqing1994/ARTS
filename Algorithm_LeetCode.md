@@ -304,6 +304,11 @@ class Solution:
         return ''.join(res)         
 ```
 
+**53.最大子序和**
+
+思路：
+
+
 
 33.假设按照升序排序的数组在预先未知的某个点上进行了旋转。
 
@@ -519,7 +524,9 @@ class Solution:
             direction = (direction + 1) % 4
 ```
 
-53.给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+**53.最大子序列的和**
+
+给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
 
 示例:
 
@@ -765,6 +772,45 @@ class Solution:
             res = max(res, r - l) # 当前子串满足条件了，更新最大长度
         return res
 ```
+
+**88. 合并两个有序数组**
+
+给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。
+
+说明:
+
+初始化 nums1 和 nums2 的元素数量分别为 m 和 n。
+你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
+示例:
+
+输入:
+nums1 = [1,2,3,0,0,0], m = 3
+nums2 = [2,5,6],       n = 3
+
+输出: [1,2,2,3,5,6]
+
+思路：条件是两个有序数组，直接比较nums1和nums2元素的大小，然后根据大小加入到nums1的末尾，最后还要考虑nums2的元素是都还有剩余。
+
+```py
+def merge(self, nums1, m, nums2, n):
+    pos = m+n-1
+    m-=1
+    n-=1
+    while m >= 0 and n >= 0:
+        if nums1[m] > nums2[n]:
+            nums1[pos] = nums1[m]
+            pos -= 1
+            m -= 1
+        else:
+	nums1[pos] = nums2[n]
+	pos -= 1
+	n -= 1
+    while n>= 0:
+        nums1[pos] = nums2[n]
+        pos -= 1
+        n -= 1
+```
+
 
 
 69.实现 int sqrt(int x) 函数。
