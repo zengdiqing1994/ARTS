@@ -228,7 +228,9 @@ class Solution:
 
 ### 数组字符串
 
-1.给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
+**1.两数之和**
+
+给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
 
 你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
 
@@ -253,6 +255,53 @@ def twoSum(nums,target):
             dic[tmp] = i
 ```
 
+**15. 三数之和**
+
+给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。
+
+注意：答案中不可以包含重复的三元组。
+
+例如, 给定数组 nums = [-1, 0, 1, 2, -1, -4]，
+
+满足要求的三元组集合为：
+[
+  [-1, 0, 1],
+  [-1, -1, 2]
+]
+
+思路：排序，固定左边，如果左边重复，继续，左右弄边界，去重，针对不同的左右边界情况处理
+
+即a+b+c>0 动c往左，a+b+c<0 动b往右
+
+```py
+class Solution:
+    def threeSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        res = []	#结果的数组
+        nums.sort()	#先排序
+        for i in range(len(nums)-2):
+            if i>0 and nums[i] == nums[i-1]:	#如果有重复的，去重
+                continue
+            l = i+1	#两个指针
+            r = len(nums) - 1
+            while l<r:
+                s = nums[i] + nums[l] + nums[r]	#求的和是三个数相加
+                if s < 0:	#若和小于0，就让l右移
+                    l+=1
+                elif s > 0:	#和大于0，就让r左移
+                    r-=1
+                else:
+                    res.append((nums[i],nums[l],nums[r]))	#若等于零，就把三个数放入数组中
+                    while l<r and nums[l] == nums[l+1]:#左边两个数相同，就跳过
+                        l+=1
+                    while l<r and nums[r] == nums[r-1]:#右边同理
+                        r-=1
+                    l+=1;r-=1
+        return res
+```
 
 6.将一个给定字符串根据给定的行数，以从上往下、从左到右进行 Z 字形排列。
 
@@ -893,6 +942,108 @@ class Solution:
         return idx
 ```
 特别简单的一题。自己还想了很久。。。
+
+
+**33. 搜索旋转排序数组**
+
+假设按照升序排序的数组在预先未知的某个点上进行了旋转。
+
+( 例如，数组 [0,1,2,4,5,6,7] 可能变为 [4,5,6,7,0,1,2] )。
+
+搜索一个给定的目标值，如果数组中存在这个目标值，则返回它的索引，否则返回 -1 。
+
+你可以假设数组中不存在重复的元素。
+
+你的算法时间复杂度必须是 O(log n) 级别。
+
+示例 1:
+
+输入: nums = [4,5,6,7,0,1,2], target = 0
+输出: 4
+示例 2:
+
+输入: nums = [4,5,6,7,0,1,2], target = 3
+输出: -1
+
+思路：直接用二分法查找数字即可
+
+```py
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        l, r = 0, len(nums) - 1
+        while l <= r:
+            mid = l + ((r-l) >> 2)
+            if nums[mid] == target:
+                return mid
+            if nums[mid] <= nums[r]:
+                if nums[mid] < target <= nums[r]:
+                    l = mid + 1
+                else:
+                    r = mid - 1
+            else:
+                if nums[l] <= target < nums[mid]:
+                    r = mid - 1
+                else:
+                    l = mid + 1
+        return -1
+```
+
+**34. 在排序数组中查找元素的第一个和最后一个位置**
+
+给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。
+
+你的算法时间复杂度必须是 O(log n) 级别。
+
+如果数组中不存在目标值，返回 [-1, -1]。
+
+示例 1:
+
+输入: nums = [5,7,7,8,8,10], target = 8
+输出: [3,4]
+示例 2:
+
+输入: nums = [5,7,7,8,8,10], target = 6
+输出: [-1,-1]
+
+思路：二分法，先找target出现的左边界，判断是否有target后再判断右边界
+
+找左边界：二分，找到一个index，该index对应的值为target，并且它左边index-1对应的值不是target（如果index为0则不需要判断此条件），如果存在index就将其append到
+res中，判断此时res是否为空，如果为空，说明压根不存在target，返回[-1, -1]
+
+找右边界：二分，找到一个index（但是此时用于二分循环的l可以保持不变，r重置为len(nums)-1，这样程序可以更快一些），该index对应的值为target
+
+并且它右边index+1对应的值不是target（如果index为len(nums)-1则不需要判断此条件），如果存在index就将其append到res中
+
+```py
+class Solution:
+    def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        if len(nums)==0:
+            return [-1,-1]
+        elif target<nums[0] and target<nums[-1]:
+            return [-1,-1]
+        else:
+            l, r = 0, len(nums)-1
+        while l<=r:
+            mid = (l+r)//2
+            if nums[mid]<target:
+                l = mid+1
+            elif nums[mid]>target:
+                r = mid-1
+            elif nums[mid] == target:
+                l = r = mid
+                while l-1>=0 and nums[l-1]==target:
+                    l -= 1
+                while r+1<=len(nums)-1 and nums[r+1]==target:
+                    r += 1
+                return [l,r]
+        return [-1,-1] 
+```
+
 
 买卖股票的最佳时机 II
 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
