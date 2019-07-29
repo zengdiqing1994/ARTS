@@ -783,7 +783,8 @@ class Solution:
 
 
 
-2.实现strStr()
+**2.实现strStr()**
+
 实现 strStr() 函数。
 
 给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。
@@ -802,8 +803,8 @@ class Solution:
 
 对于本题而言，当 needle 是空字符串时我们应当返回 0 。这与C语言的 strstr() 以及 Java的 indexOf() 定义相符。
 
-思路：haystack中的字符串和needle的要重合
-```
+思路：haystack中的字符串和needle的要重合,KMP可以搞定
+```py
 class Solution:
     def strStr(self, haystack, needle):
         """
@@ -820,7 +821,7 @@ class Solution:
         return -1
 ```
 
-242.有效的异位字符串
+**242.有效的异位字符串**
 
 给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的一个字母异位词。
 
@@ -857,7 +858,7 @@ class Solution:
 
 空间复杂度：O(n)
 
-3.给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+**3.给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。**
 
 示例 1:
 
