@@ -1385,7 +1385,8 @@ class Solution:
                 j+=1
 ```
 
-3.反转字符串
+**3.反转字符串**
+
 编写一个函数，其作用是将输入的字符串反转过来。
 
 示例 1:
@@ -1397,7 +1398,7 @@ class Solution:
 输入: "A man, a plan, a canal: Panama"
 输出: "amanaP :lanac a ,nalp a ,nam A"
 思路：这道题实在是太简单，用python
-```
+```py
 class Solution:
     def reverseString(self, s):
         """
@@ -1412,7 +1413,8 @@ class Solution:
 用在循环里面会让运行时间变得很慢。所以直接御用python的特性，return s[::-1]就好
 
 
-4.字符串中的第一个唯一字符
+**4.字符串中的第一个唯一字符**
+
 给定一个字符串，找到它的第一个不重复的字符，并返回它的索引。如果不存在，则返回 -1。
 
 案例:
@@ -1423,7 +1425,7 @@ s = "leetcode"
 s = "loveleetcode",
 返回 2.
 思路：python中有collections.counter这个函数可以调用，作用是可以统计列表中相同字符的个数。
-```
+```py
 class Solution:
     def firstUniqChar(self, s):
         """
@@ -1439,7 +1441,8 @@ class Solution:
 ```
 
 
- 1.字符串转整数（atoi）
+ **1.字符串转整数（atoi）**
+ 
 实现 atoi，将字符串转为整数。
 
 在找到第一个非空字符之前，需要移除掉字符串中的空格字符。如果第一个非空字符是正号或负号，选取该符号，并将其与后面尽可能多的连续的数字组合起来，这部分字符即为整数的值。如果第一个非空字符是数字，则直接将其与之后连续的数字字符组合起来，形成整数。
@@ -1483,7 +1486,7 @@ class Solution:
      因此返回 INT_MIN (−231) 。
      
 思路：这道题着实是考的编程语言的技巧，我们通过正则表达式可以很好地解决
-```     
+```py
 class Solution:
     def myAtoi(self, str):
         """
