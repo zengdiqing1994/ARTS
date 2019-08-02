@@ -1906,7 +1906,8 @@ def Merge(self,pHead1,pHead2):
      return pMergeHead
 ```
 
-2.回文链表
+**2.回文链表**
+
 请判断一个链表是否为回文链表。
 
 示例 1:
@@ -1948,7 +1949,8 @@ class Solution:
 
 这次再来回顾一下链表的算法实现
 
-1.反转链表
+**1.反转链表**
+
 反转一个单链表。
 
 示例:
@@ -1973,7 +1975,8 @@ class Solution:
         return prev
 ```
 
-2.链表交换相邻元素-swap node
+**2.链表交换相邻元素-swap node**
+
 思路：类似的，只要把相邻的两个结点互相指向即可。
 ```py
 def swapPairs(self, head)
@@ -1986,9 +1989,8 @@ def swapPairs(self, head)
   return self.next
 ```
 
+**3.环形链表**
 
-
-3.环形链表
 给定一个链表，判断链表中是否有环。
 
 进阶：
@@ -1996,7 +1998,7 @@ def swapPairs(self, head)
 
 思路：这里有一个快慢指针的技巧，就是设置两个指针，一个走两步，另一个走一步，一开始都指向头结点，之后如果相遇则说明是环形，如果遇不到(不等于）则说明不是环形。
 
-```
+```py
 class Solution(object):
     def hasCycle(self, head):
         """
