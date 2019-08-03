@@ -940,18 +940,16 @@ def merge(self, nums1, m, nums2, n):
             pos -= 1
             m -= 1
         else:
-	nums1[pos] = nums2[n]
-	pos -= 1
-	n -= 1
-    while n>= 0:
+	    nums1[pos] = nums2[n]
+	    pos -= 1
+	    n -= 1
+    while n >= 0:
         nums1[pos] = nums2[n]
         pos -= 1
         n -= 1
 ```
 
-
-
-69.实现 int sqrt(int x) 函数。
+**69.实现 int sqrt(int x) 函数。**
 
 计算并返回 x 的平方根，其中 x 是非负整数。
 
@@ -968,7 +966,21 @@ def merge(self, nums1, m, nums2, n):
 说明: 8 的平方根是 2.82842..., 由于返回类型是整数，小数部分将被舍去。
 
 ```py
-  
+  class Solution:
+    def mySqrt(self, x: int) -> int:
+        if x == 0:
+            return 0
+        if x == 1:
+            return 1
+        l, r = 0, x - 1
+        while l <= r:
+            mid = l + (r-l)//2
+            if mid * mid <= x and (mid+1)*(mid+1) > x:
+                return mid
+            elif mid*mid > x:
+                r = mid-1
+            else:
+                l = mid+1
 ```
 
 
