@@ -143,7 +143,7 @@ class HeapSort:
         A[i] = tmp
 ```
 
-347.前K个高频元素
+**347.前K个高频元素**
 
 给定一个非空的整数数组，返回其中出现频率前 k 高的元素。
 
@@ -171,9 +171,7 @@ def topFrequency(self,nums,k):
 ```
 
 
-
-
-215.在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
+**215.在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。**
 
 示例 1:
 
@@ -220,11 +218,6 @@ class Solution:
         nums[left],nums[r]=nums[r],nums[left]
         return r                
 ```
-
-
-
-
-
 
 ### 数组字符串
 
@@ -303,7 +296,7 @@ class Solution:
         return res
 ```
 
-6.将一个给定字符串根据给定的行数，以从上往下、从左到右进行 Z 字形排列。
+**6.将一个给定字符串根据给定的行数，以从上往下、从左到右进行 Z 字形排列。**
 
 比如输入字符串为 "LEETCODEISHIRING" 行数为 3 时，排列如下：
 
@@ -355,11 +348,34 @@ class Solution:
 
 **53.最大子序和**
 
-思路：
+Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+
+Example:
+
+Input: [-2,1,-3,4,-1,2,1,-5,4],
+Output: 6
+Explanation: [4,-1,2,1] has the largest sum = 6.
+Follow up:
+
+If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more subtle.
+
+思路：动态规划（只关注：当然值 和 当前值+过去的状态，是变好还是变坏，一定是回看容易理解）
+
+ms(i) = max(ms[i-1]+ a[i],a[i])
+
+到i处的最大值两个可能，一个是加上a[i], 另一个从a[i]起头，重新开始。可以AC
+
+```py
+def maxSubArray(nums):
+    n = len(nums)
+    maxSum = [nums[0] for i in range(n)]
+    for i in range(1,n):
+        maxSum[i] = max(maxSum[i-1] + nums[i],nums[i])
+    return max(maxSum)
+```
 
 
-
-33.假设按照升序排序的数组在预先未知的某个点上进行了旋转。
+**33.假设按照升序排序的数组在预先未知的某个点上进行了旋转。**
 
 ( 例如，数组 [0,1,2,4,5,6,7] 可能变为 [4,5,6,7,0,1,2] )。
 
@@ -420,7 +436,7 @@ def search(nums,target):
 
 
 
-48.你必须在原地旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要使用另一个矩阵来旋转图像。
+**48.你必须在原地旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要使用另一个矩阵来旋转图像。**
 
 示例 1:
 
@@ -469,7 +485,7 @@ def rotate(matrix):
         matrix[i] = matrix[i][::-1]
 ```
 
-54.给定一个包含 m x n 个元素的矩阵（m 行, n 列），请按照顺时针螺旋顺序，返回矩阵中的所有元素。
+**54.给定一个包含 m x n 个元素的矩阵（m 行, n 列），请按照顺时针螺旋顺序，返回矩阵中的所有元素。**
 
 示例 1:
 
@@ -526,7 +542,7 @@ def spiralOrder(matrix):
 
 空间复杂度：O（1）
 
-59.给定一个正整数 n，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。
+**59.给定一个正整数 n，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。**
 
 示例:
 
@@ -731,7 +747,6 @@ class Solution:
         if right < left:
             self.singleStr(s + ')',left, right + 1, n)
 ```
-
 
 
 **409.给定一个包含大写字母和小写字母的字符串，找到通过这些字母构造成的最长的回文串。**
