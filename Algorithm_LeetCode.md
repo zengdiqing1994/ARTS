@@ -1871,6 +1871,22 @@ class Solution:
         return cur
 ```
 
+最近理解的一种方法
+
+```py
+def reverseList(head):
+    if not head or not head.next:
+        return head
+    pre = None
+    cur = head
+    while cur: #当存在cur的时候就继续循环
+        nxt = cur.next
+	cur.next = pre
+	pre = cur
+	cur = nxt
+    return pre 
+```
+
 
 **21.合并两个有序链表**
 
@@ -1881,95 +1897,70 @@ class Solution:
 输入：1->2->4, 1->3->4
 输出：1->1->2->3->4->4
 
-思路：合并的话首先得把两个链表拆开，比较这两个链表分别对应的大小，排序,三种解法：
+思路：方法 1：递归
+
+我们可以如下递归地定义在两个链表里的 merge 操作（忽略边界情况，比如空链表等）：
+也就是说，两个链表头部较小的一个与剩下元素的 merge 操作结果合并。
+
+算法
+
+我们直接将以上递归过程建模，首先考虑边界情况。
+特殊的，如果 l1 或者 l2 一开始就是 null ，那么没有任何操作需要合并，所以我们只需要返回非空链表。否则，我们要判断 l1 和 l2 哪一个的头元素更小，然后递归地决定下一个添加到结果里的值。如果两个链表都是空的，那么过程终止，所以递归过程最终一定会终止。
+
 
 ```py
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
+class Solution(object):
     def mergeTwoLists(self, l1, l2):
         """
         :type l1: ListNode
         :type l2: ListNode
         :rtype: ListNode
         """
-        i = l1
-        j = l2
-        head = l1
         if l1 is None:
             return l2
-        if l2 is None:
+        elif l2 is None:
             return l1
-        if j.val < i.val:
-            head = j
-            while j.next is not None and j.next.val <= i.val:
-                j = j.next
-            t = j
-            j = j.next
-            t.next = i
-            
-        while i != None and j != None:
-            if i.next != None:
-                if i.next.val > j.val:
-                    t = j
-                    j = j.next
-                    t.next = i.next
-                    i.next = t
-                    i = i.next
-                else:
-                    i = i.next
-            else:
-                i.next = j
-                break
-        return head
+        elif l1.val < l2.val:
+            l1.next = self.mergeTwoLists(l1.next,l2)
+            return l1
+        else:
+            l2.next = self.mergeTwoLists(l1,l2.next)
+            return l2
 ```
 
+想法
+
+我们可以用迭代的方法来实现上述算法。我们假设 l1 元素严格比 l2元素少，我们可以将 l2 中的元素逐一插入 l1 中正确的位置。
+
+算法
+
+首先，我们设定一个哨兵节点 "prehead"(或者说虚拟结点dummyhead) ，这可以在最后让我们比较容易地返回合并后的链表。我们维护一个 cur 指针，我们需要做的是调整它的 next 指针。然后，我们重复以下过程，直到 l1 或者 l2 指向了 null ：如果 l1 当前位置的值小于等于 l2 ，我们就把 l1 的值接在 cur 节点的后面同时将 l1 指针往后移一个。否则，我们对 l2 做同样的操作。不管我们将哪一个元素接在了后面，我们都把 cur 向后移一个元素。
+
+在循环终止的时候， l1 和 l2 至多有一个是非空的。由于输入的两个链表都是有序的，所以不管哪个链表是非空的，它包含的所有元素都比前面已经合并链表中的所有元素都要大。这意味着我们只需要简单地将非空链表接在合并链表的后面，并返回合并链表。
+
 ```py
-class Solution:
+class Solution(object):
     def mergeTwoLists(self, l1, l2):
         """
         :type l1: ListNode
         :type l2: ListNode
         :rtype: ListNode
         """
-        h = ListNode(-1)
-        cur = h
-        
-        cur1 = l1
-        cur2 = l2
-        while cur1 != None and cur2 != None:
-            if cur1.val <= cur2.val:
-                cur.next = cur1
-                cur1 = cur1.next
+        dummyhead = ListNode(-1)
+        cur = dummyhead
+        while l1 and l2:
+            if l1.val <= l2.val:
+                cur.next = l1
+                l1 = l1.next
             else:
-                cur.next = cur2
-                cur2 = cur2.next
+                cur.next = l2
+                l2 = l2.next
             cur = cur.next
-        if cur1 != None:
-            cur.next = cur1
-        if cur2 != None:
-            cur.next = cur2
-        return h.next
-```
-
-```py
-def Merge(self,pHead1,pHead2):
-    if pHead1 == None:
-        return pHead2
-    if pHead2 == None:
-        return pHead1
-    pMergeHead = None
-    if pHead1.val < pHead2.val:
-        pMergeHead = pHead1
-        pMergeHead.next = self.Merge(pHead1.next,pHead2)
-    else:
-        pMergeHead = pHead2
-        pMergeHead.next = self.Merge(pHead1,pHead2.next)
-     return pMergeHead
+        if l1 is not None:
+            cur.next = l1
+        else:
+            cur.next = l2
+        return dummyhead.next
 ```
 
 **2.回文链表**
@@ -2014,32 +2005,6 @@ class Solution:
 
 
 这次再来回顾一下链表的算法实现
-
-**1.反转链表**
-
-反转一个单链表。
-
-示例:
-
-输入: 1->2->3->4->5->NULL
-输出: 5->4->3->2->1->NULL
-进阶:
-你可以迭代或递归地反转链表。你能否用两种方法解决这道题？
-
-思路：一般想到的就是将链表的后续结点的指针指向前继结点，但是如何去实现呢？
-```py
-class Solution:
-    def reverseList(self, head):
-        """
-        :type head: ListNode
-        :rtype: ListNode
-        """
-        
-        cur,prev = head,None
-        while cur:
-            cur.next,prev,cur = prev,cur,cur.next  ###这样一行代码即可表示三个变量之间的赋值
-        return prev
-```
 
 **2.链表交换相邻元素-swap node**
 
