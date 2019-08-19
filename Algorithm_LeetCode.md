@@ -2561,7 +2561,7 @@ class Trie:
 
 
 
-235.给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
+**235.给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。**
 
 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
 
@@ -2588,7 +2588,7 @@ class Solution:
 
 
 
-104.给定一个二叉树，找出其最大深度。
+**104.给定一个二叉树，找出其最大深度。**
 
 二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。
 
@@ -2608,9 +2608,10 @@ class Solution:
 def maxDepth(self,root):
     if not root:
         return 0
-    return 1 + max(self.maxDepth(root.left),self.maxDepth(root.right))
+    return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
 ```
-111.给定一个二叉树，找出其最小深度。
+
+**111.给定一个二叉树，找出其最小深度。**
 
 最小深度是从根节点到最近叶子节点的最短路径上的节点数量。
 
@@ -2639,7 +2640,7 @@ def minDepth(self,root):
 ```
 
 
-100.给定两个二叉树，编写一个函数来检验它们是否相同。
+**100.给定两个二叉树，编写一个函数来检验它们是否相同。**
 
 如果两个树在结构上相同，并且节点具有相同的值，则认为它们是相同的。
 
@@ -2672,7 +2673,7 @@ class Solution:
         return (p.val==q.val) and self.isSameTree(p.left,q.left) and self.isSameTree(p.right,q.right)
 ```
 
-226.翻转一棵二叉树。
+**226.翻转一棵二叉树。**
 
 示例：
 
@@ -2690,6 +2691,7 @@ class Solution:
   7     2
  / \   / \
 9   6 3   1
+
 ```py
 class Solution:
     def invertTree(self, root: TreeNode) -> TreeNode:
@@ -2701,15 +2703,7 @@ class Solution:
         return root
 ```
 
-
-
-
-
-
-
-
-
-94.给定一个二叉树，返回它的中序 遍历。
+**94.给定一个二叉树，返回它的中序 遍历。**
 
 示例:
 
@@ -2744,7 +2738,7 @@ class Solution:
         return res
 ```
 
-145.二叉树的后序遍历
+**145.二叉树的后序遍历**
 
 给定一个二叉树，返回它的 后序 遍历。
 
@@ -2779,21 +2773,20 @@ stack : cout1   cout2   go-2-R   cout3   go-3-R   go-3-L
 ```py
 class Solution:
     def postorderTraversal(self, root: 'TreeNode') -> 'List[int]':
-        result = []
-        if not root:
-            return []
-        stack = []
-        stack.append(root)
-        while len(stack)!=0:
-            top = stack.pop()
-            if top.left != None:
-                stack.append(top.left)
-            if top.right !=None:
-                stack.append(top.right)
-            result.insert(0,top.val)
-        return result
+	res = []
+	if root is None:
+	    return []
+	stack = [root]
+	while stack:
+	    res = stack.pop()
+	    if root.left:
+	        stack.append(root.left)
+	    if root.right:
+	        stack.append(root.right)
+	return res[::-1]
 ```
-102.给定一个二叉树，返回其按层次遍历的节点值。 （即逐层地，从左到右访问所有节点）。
+
+**102.给定一个二叉树，返回其按层次遍历的节点值。 （即逐层地，从左到右访问所有节点）。**
 
 例如:
 给定二叉树: [3,9,20,null,null,15,7],
